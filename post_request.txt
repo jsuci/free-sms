@@ -1,0 +1,29 @@
+xajax: processMsg
+xajaxr: 1585878924441
+xajaxargs[]: <xjxquery><q>
+
+IL_IN_TAG=1
+&caf5010dc4befd2664b413867056627e=63
+
+&51b705f5df5aa9086ce191fd5daf58b7=number
+
+&5f63641f64605c37a4e89c34f1ad2bd8=message
+
+&msgLen=153
+
+&4c7844a86752583822a38162662918a9=code
+
+&d2861b2a27359b317fb650767c77dd67=a8220d7fc2494440db5974d0c55196e0
+
+&ac85035909047b8411596e78b086b57a=1f9b98b930a298d2263ec5c7db43eee1f1f4b46f71e85a9add263b2b5b2998afbd79cdd680881b9e46df4988d012b8c2e3fbce18b4cae33dd8051d9dce7a0a38
+
+&IL_IN_TAG=1
+</q></xjxquery>
+
+{'Date': 'Fri, 03 Apr 2020 08:04:59 GMT', 'Content-Type': 'text/html; charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 
+'keep-alive', 'Vary': 'Accept-Encoding', 'Set-Cookie': 'session_id=ehfaj3dkloo7mjujl03o2ljq05; path=/, session_id=5kt6pu0irn82dml317ktm6pbf7; path=/', 'Last-Modified': 'Fri, 03 Apr 2020 08:04:58 GMT', 'Cache-Control': 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', 'Pragma': 'no-cache', 'Expires': 'Fri, 03 Apr 2020 09:04:58 GMT', 'Server': 'nginx', 'Content-Encoding': 'gzip'}
+
+{'Date': 'Fri, 03 Apr 2020 08:05:15 GMT', 'Content-Type': 'text/xml; charset="utf-8"', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding', 'Last-Modified': 
+'Fri, 03 Apr 2020 08:05:15 GMT', 'Cache-Control': 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', 'Pragma': 'no-cache', 'Expires': 'Fri, 03 Apr 2020 09:05:15 GMT', 'Server': 'nginx', 'Content-Encoding': 'gzip'}
+
+
