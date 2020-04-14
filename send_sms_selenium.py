@@ -54,24 +54,6 @@ def send_sms():
 
     sleep(5)
 
-    try:
-        error = driver.find_element_by_xpath("//div[@errortxt]")
-
-        while error:
-            print("invalid code try again.")
-            code = input("Enter code: ")
-
-            submit = driver.find_element_by_xpath(
-                "//input[@type='submit']")
-
-            submit.click()
-
-            error = driver.find_element_by_xpath("//div[@errortxt]")
-    except Exception:
-        pass
-
-    sleep(5)
-
 
 def main():
     send_sms()
