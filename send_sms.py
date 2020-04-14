@@ -2,11 +2,11 @@ from cfscrape import create_scraper, Session, HTTPAdapter
 from fake_useragent import UserAgent
 from urllib3.util.retry import Retry
 from requests_html import HTML
-from urllib.parse import urlparse, urlencode
+from urllib.parse import urlparse, urlencode, quote_plus
 from pathlib import Path
 from PIL import Image
 from io import BytesIO
-from time import time
+from time import time_ns, sleep
 
 
 def fetch_r(p):
@@ -42,17 +42,22 @@ def send_sms():
     def make_absolute(qs, p):
         return f"{p.scheme}://{p.netloc}{qs}"
 
-    def show_captcha(img_url):
+    def show_captcha(img_url, ua):
         cf = create_scraper()
-        r = cf.get(img_url)
+        headers = {
+            "User-Agent": ua
+        }
+        r = cf.get(img_url, headers=headers)
 
         img = Image.open(BytesIO(r.content))
         img.show()
 
+        return (r.cookies, r.headers["Set-Cookie"])
+
     p = urlparse("http://www.afreesms.com/intl/philippines")
     url = f"{p.scheme}://{p.hostname}"
-    ua = UserAgent()
-    headers = {"User-Agent": ua.random}
+    ua = UserAgent().random
+    headers = {"User-Agent": ua}
 
     cf_sess = Session()
     retries = Retry(total=5, backoff_factor=1)
@@ -60,8 +65,7 @@ def send_sms():
     cf = create_scraper(sess=cf_sess)
 
     r = cf.get(p.geturl(), headers=headers)
-
-    headers["Set-Cookie"] = r.headers["Set-Cookie"]
+    cookies = r.cookies
 
     html = HTML(html=r.content)
     html.render()
@@ -70,10 +74,12 @@ def send_sms():
     captcha = doc.xpath("//td//img[@id='captcha']", first=True).attrs["src"]
     img_url = make_absolute(captcha, p)
 
-    u_phone = input("Enter 10-digit #: ")
-    u_message = input("Enter message (160 chars): ")
+    # u_phone = input("Enter 10-digit #: ")
+    u_phone = "9754238175"
+    # u_message = input("Enter message (160 chars): ")
+    u_message = "hellllllllllllooooooo worllldddddd"
 
-    show_captcha(img_url)
+    new_cookies, new_set_cookie = show_captcha(img_url, ua)
 
     u_captcha = input("Enter captcha: ")
 
@@ -91,9 +97,9 @@ def send_sms():
     c_two = hidden[1].attrs
 
     # Construct post request
-    unix_time = int(time())
+    unix_time = str(time_ns())[:13]
+
     args = {
-        "IL_IN_TAG": tag["value"],
         prefix["name"]: prefix["value"],
         number: u_phone,
         message: u_message,
@@ -103,7 +109,10 @@ def send_sms():
         c_two["name"]: c_two["value"]
     }
 
-    xajaxargs = f"<xjxquery><q>{urlencode(args)}</q></xjxquery>"
+    xajaxargs = quote_plus(
+        f"<xjxquery><q>IL_IN_TAG=1&{urlencode(args, doseq=True)}"
+        f"&IL_IN_TAG=1</q></xjxquery>"
+    )
 
     body = {
         "xajax": "processMsg",
@@ -111,10 +120,12 @@ def send_sms():
         "xajaxargs[]": xajaxargs
     }
 
+    headers["Content-Type"] = "application/x-www-form-urlencoded"
+
     cf_post = cf_sess.post(p.geturl(), data=body,
                            headers=headers)
 
-    print(cf_post.headers)
+    print(cf_post.content)
 
 
 def main():
